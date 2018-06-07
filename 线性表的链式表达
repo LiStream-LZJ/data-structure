@@ -8,7 +8,6 @@ typedef struct LNode
 }LNode, *LinkList;
 int InitList(LinkList &L)
 {
-	L = new LNode;
 	L->next = NULL;
 	printf("初始化成功\n");
 	return 1;
@@ -17,19 +16,22 @@ int Input(LinkList &L)
 {
 	int i, j, x;
 	printf("请输入位数:\n");
-	scanf("%d", &i);
+	scanf_s("%d", &i);
 	for (j = 1; j <= i; j++)
 	{
 		printf("\nplease input");
-		scanf("%d", &x);
+		scanf_s("%d", &x);
 		L->date = x;
 		L = L->next;
+		L = new LNode;
 	}
 	printf("\nok\n");
+	return 0;
 }
 int main()
 {
-	LinkList *L;
+	LinkList L;
+	L = new LNode;
 	InitList(L);
 	Input(L);
 	return 0;
