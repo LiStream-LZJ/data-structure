@@ -15,17 +15,73 @@ int InitList(LinkList &L)
 int Input(LinkList &L)
 {
 	int i, j, x;
+	LinkList p,q;
+	p = L;
 	printf("请输入位数:\n");
 	scanf_s("%d", &i);
-	for (j = 1; j <= i; j++)
+	for (j = 1;j <= i; j++)
 	{
 		printf("\nplease input");
 		scanf_s("%d", &x);
-		L->date = x;
-		L = L->next;
-		L = new LNode;
+		q = new LNode;
+		q->date = x;
+		q->next = NULL;
+		p->next=q;
+		p = p->next;
 	}
 	printf("\nok\n");
+	return 0;
+}
+int putin(LinkList &L)
+{
+	LinkList p,s;
+	s = new LNode;
+	p = L->next;
+	int i,j,n;
+	i = 0;
+	printf("\n请输入插入位置:");
+	scanf_s("%d", &n);
+	while (p&&(i < n-1))
+	{
+		p = p->next; i++;
+	}
+	if (!p || (i > n-1)) { printf("\nerror"); return 0; }
+	printf("\n请输入元素:");
+	scanf_s("%d", &j);
+	s->date = j;
+	s->next = p->next;
+	p->next = s;
+	printf("\nok");
+	return 0;
+}
+int detell(LinkList L)
+{
+	LinkList p,q;
+	q = new LNode;
+	int j, i;
+	p = L->next; j = 0;
+	printf("\nposition");
+	scanf_s("%d", &i);
+	while ((p)&&(j<i-1))
+	{
+		p = p->next; j++;
+	}
+	if (!(p) || (j > i - 1)) return 0;
+	q = p->next;
+	p->next = q->next;
+	delete q;
+	return 0;
+}
+int shuchu(LinkList L)
+{
+	LinkList p;
+	p = L->next;
+	while (p)
+	{
+		printf("%d->", p->date);
+		p = p->next;
+	}
+	printf("\nok");
 	return 0;
 }
 int main()
@@ -34,5 +90,9 @@ int main()
 	L = new LNode;
 	InitList(L);
 	Input(L);
+	putin(L);
+	detell(L);
+	shuchu(L);
+	system("pause");
 	return 0;
 }
