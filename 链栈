@@ -1,0 +1,65 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define OK 1
+#define ERROR 0
+#define OVERFLOW -2
+#define MAXSIZE 100
+#define ElemType int
+typedef struct StackNode
+{
+	ElemType data;
+	struct StackNode *next;
+}StackNode,*LinkStack;
+int InitStack(LinkStack &s)
+{
+	s = NULL;
+	printf("OK\n");
+	return OK;
+}
+int Push(LinkStack &s)
+{
+	int n,x,i;
+	StackNode *p;
+	p = new StackNode;
+	printf("\n请输入元素个数：");
+	scanf("%d", &n);
+	for (i = 0; i < n; i++)
+	{
+		printf("\nputin:");
+		scanf("%d", &x);
+		p->data = x;
+		p->next = s;
+		s = p;
+	}
+	printf("\nOK\n");
+	return OK;
+}
+int Pop(LinkStack &s)
+{
+	if (s == NULL) return ERROR;
+	int x;
+	StackNode *p;
+	x = s->data;
+	p = s;
+	s = s->next;
+	delete p;
+	printf("\n本次出栈元素为：%d", x);
+	return OK;
+}
+int Get(LinkStack &s)
+{
+	if (s != NULL)
+		printf("\n栈顶元素为：%d", s->data);
+	return OK;
+}
+int main()
+{
+	LinkStack s;
+	s = new StackNode;
+	InitStack(s);
+	Push(s);
+	Get(s);
+	Pop(s);
+	Get(s);
+	return 0;
+}
