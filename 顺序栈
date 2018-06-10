@@ -1,0 +1,60 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define OK 1
+#define ERROR 0
+#define OVERFLOW -2
+#define MAXSIZE 100
+#define SElemType int
+typedef struct
+{
+	SElemType *base;
+	SElemType *top;
+	int stacksize;
+}SqStack;
+int InitStack(SqStack &S)
+{
+	S.base = new SElemType[MAXSIZE];
+	if (!S.base) exit(OVERFLOW);
+	S.top = S.base;
+	S.stacksize = MAXSIZE;
+	printf("OK\n");
+	return OK;
+}
+int Push(SqStack &S)
+{
+	int n, x,i;
+	if (S.top - S.base == S.stacksize) { printf("error\n"); return ERROR; }
+	printf("\n请输入元素个数：");
+	scanf("%d", &n);
+	for (i = 0; i < n; i++)
+	{
+		printf("\n请输入第%d个元素：",i+1);
+		scanf("%d", &x);
+		*S.top++ = x;
+	}
+	printf("\nOK\n");
+	return OK;
+}
+int Pop(SqStack &S)
+{
+	int x;
+	if (S.top == S.base) return ERROR;
+	x = *--S.top;
+	printf("本次出栈元素：%d\n", x);
+	return OK;
+}
+int GetTop(SqStack &S)
+{
+	if (S.top != S.base)
+		printf("栈顶元素为%d\n", *(S.top - 1));
+	return OK;
+}
+int main()
+{
+	SqStack S;
+	InitStack(S);
+	Push(S);
+	Pop(S);
+	GetTop(S);
+	return 0;
+}
