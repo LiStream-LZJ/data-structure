@@ -1,0 +1,19 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<iostream>
+typedef struct Chunk
+{
+	char ch[80];
+	struct Chunk *next;
+}Chunk;
+typedef struct 
+{
+	Chunk *head,*tail;
+	int length;
+}LString;
+int main()
+{
+	int p;
+	LString T,S;
+
+}
