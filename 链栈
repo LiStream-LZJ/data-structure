@@ -9,7 +9,7 @@ typedef struct StackNode
 {
 	ElemType data;
 	struct StackNode *next;
-}StackNode,*LinkStack;
+}StackNode, *LinkStack;
 int InitStack(LinkStack &s)
 {
 	s = NULL;
@@ -18,15 +18,15 @@ int InitStack(LinkStack &s)
 }
 int Push(LinkStack &s)
 {
-	int n,x,i;
+	int n, x, i;
 	StackNode *p;
-	p = new StackNode;
 	printf("\n请输入元素个数：");
 	scanf("%d", &n);
 	for (i = 0; i < n; i++)
 	{
 		printf("\nputin:");
 		scanf("%d", &x);
+		p = new StackNode;
 		p->data = x;
 		p->next = s;
 		s = p;
