@@ -1,0 +1,63 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef int QElemType;
+typedef struct QNode
+{
+	QElemType data;
+	struct QNode *next;
+}QNode,*QueuePtr;
+typedef struct 
+{
+	QueuePtr front;
+	QueuePtr rear;
+}LinkQueue;
+int In(LinkQueue &Q)
+{
+	Q.front=Q.rear=new QNode;
+	Q.front->next=NULL;
+	return 0;
+}
+int EnQueue(LinkQueue &Q)
+{
+	QNode *p;
+	int n,x,i;
+	printf("Input long:");
+	scanf("%d",&n);
+	for(i=0;i<n;i++)
+	{
+		p=new QNode;
+		printf("\ninput:");
+		scanf("%d",&x);
+		p->data=x;
+		p->next=NULL;
+		Q.rear->next=p;
+		Q.rear=p;
+	}
+	return 0;
+}
+int DeQueue(LinkQueue &Q)
+{
+	if(Q.front==Q.rear) return 0;
+	QNode *p;
+	p=Q.front->next;
+	printf("\nThis time input is:%d",p->data);
+	Q.front->next=p->next;
+	if(Q.rear==p) Q.rear=Q.front;
+	delete p;
+	return 0;
+}
+int Get(LinkQueue &Q)
+{
+	if(Q.front!=Q.rear)
+		printf("\nTOP is:%d",Q.front->next->data);
+	return 0;
+}
+int main()
+{
+	LinkQueue Q;
+	In(Q);
+	EnQueue(Q);
+	DeQueue(Q);
+	Get(Q);
+	return 0;
+}
