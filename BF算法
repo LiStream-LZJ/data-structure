@@ -1,19 +1,53 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<iostream>
-typedef struct Chunk
+typedef struct
 {
-	char ch[80];
-	struct Chunk *next;
-}Chunk;
-typedef struct 
-{
-	Chunk *head,*tail;
 	int length;
+	char ch[80];
 }LString;
+int Input(LString &T, LString &S)
+{
+	int i, n, x;
+	printf("The long of S:");
+	scanf("%d", &n);
+	S.length = n;
+	for (i = 1; i <= n; i++)
+	{
+		scanf("%c",&x);
+		S.ch[i] = x;
+		printf("%c\n", S.ch[i]);
+	}
+	printf("The long of T:");
+	scanf("%d", &n);
+	T.length = n;
+	for (i = 1; i <= n; i++)
+	{
+		scanf("%c",&x);
+		T.ch[i] = x;
+		printf("%c\n", T.ch[i]);
+	}
+	return 0;
+}
+int Find(LString &T, LString &S)
+{
+	int i, j;
+	i = 1; j = 1;
+	while (i<=S.length && j<=T.length)
+	{
+		if (S.ch[i] == T.ch[j]) { ++j; ++i; }
+		else { i = i - j + 2; j = 1; }
+		printf("%d %d\n", i, j);
+	}
+	if (j >= T.length) return i - T.length;
+	else return 0;
+}
 int main()
 {
 	int p;
-	LString T,S;
-
+	LString T, S;
+	Input(T, S);
+	p = Find(T, S);
+	printf("%d\n", p);
+	return 0;
 }
