@@ -16,7 +16,6 @@ int Input(LString &T, LString &S)
 	{
 		scanf("%c",&x);
 		S.ch[i] = x;
-		printf("%c\n", S.ch[i]);
 	}
 	printf("The long of T:");
 	scanf("%d", &n);
@@ -25,7 +24,6 @@ int Input(LString &T, LString &S)
 	{
 		scanf("%c",&x);
 		T.ch[i] = x;
-		printf("%c\n", T.ch[i]);
 	}
 	return 0;
 }
@@ -37,7 +35,6 @@ int Find(LString &T, LString &S)
 	{
 		if (S.ch[i] == T.ch[j]) { ++j; ++i; }
 		else { i = i - j + 2; j = 1; }
-		printf("%d %d\n", i, j);
 	}
 	if (j >= T.length) return i - T.length;
 	else return 0;
