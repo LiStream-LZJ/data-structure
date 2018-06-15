@@ -1,0 +1,97 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<iostream>
+int next[100];
+int nextval[100];
+typedef struct
+{
+	char ch[100];
+	int length;
+}SString;
+int Input(SString &T, SString &S)
+{
+	int i, n, x;
+	printf("The long of S:");
+	scanf("%d", &n);
+	S.length = n;
+	for (i = 1; i <= n; i++)
+	{
+		scanf("%c", &x);
+		S.ch[i] = x;
+	}
+	printf("The long of T:");
+	scanf("%d", &n);
+	T.length = n;
+	for (i = 1; i <= n; i++)
+	{
+		scanf("%c", &x);
+		T.ch[i] = x;
+	}
+	return 0;
+}
+int getnext(SString T)//next值的计算
+{
+	int i,j;
+	i = 1; next[1] = 0; j = 0;
+	while (i<T.length)
+	{
+		if (j == 0 || T.ch[i] == T.ch[j]) { ++i; ++j; next[i] = j; }
+		else j = next[j];
+	}
+	return 0;
+}
+int getnextval(SString T)//计算next函数修正
+{
+	int i,j;
+	nextval[1] = 0; j = 0; i = 1;
+	while (i<T.length)
+	{
+		if (j == 0 || T.ch[i] == T.ch[j])
+		{
+			++i; ++j;
+			if (T.ch[i] != T.ch[j]) nextval[i] = j;
+			else nextval[i] = nextval[j];
+		}
+		else j = nextval[j];
+	}
+	return 0;
+}
+int KMP1(SString T, SString S)
+{
+	int i, j;
+	i = 1; j = 1;
+	while (i<=S.length&&j<=T.length)
+	{
+		if (j == 0 || S.ch[i] == T.ch[j]) { ++i; ++j; }
+		else j = next[j];
+	}
+	if (j > T.length) return i - T.length;
+	else return 0;
+}
+int KMP2(SString T, SString S)
+{
+	int i, j;
+	i = 1; j = 1;
+	while (i <= S.length&&j <= T.length)
+	{
+		if (j == 0 || S.ch[i] == T.ch[j]) { ++i; ++j; }
+		else j = nextval[j];
+	}
+	if (j > T.length) return i - T.length;
+	else return 0;
+}
+int main()
+{
+	int p,q;
+	SString S,T;
+	Input(T, S);
+	getnext(T);
+	getnextval(T);
+	p=KMP1(T, S);
+	q = KMP2(T, S);
+	if(p!=0) printf("%d\n", p);
+	else printf("ERROR\n");
+	if (q != 0) printf("%d\n", q);
+	else printf("ERROR\n");
+	return 0;
+}
