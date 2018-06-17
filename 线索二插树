@@ -1,0 +1,67 @@
+#include<stdlib.h>
+#include<stdio.h>
+#include<string.h>
+#include <malloc.h>
+#include<iostream>
+using namespace std;
+typedef char TElemType;
+typedef struct BiThrNode
+{
+	TElemType data;
+	struct BiThrNode *lchild, *rchild;
+	int LTag, RTag;
+}TBTNode,*TBTree;
+void CreateTBTNode(TBTree &b)
+{
+	int i,n;
+	TBTNode *St[100], *p = NULL;
+	int top = -1,k,j=0;
+	char ch,s[100];
+	b = NULL;
+	cout << "请输入元素：" << endl;
+	for (i = 0; i < 100; i++)
+	{
+		cin >> ch;
+		if (ch == '#') { break; }
+		else s[i] = ch;
+	}
+	for (n = 0; i < n; n++)
+	{
+		switch (s[i])
+		{
+			case'(':top++; St[top] = p; k = 1; break;
+			case')':top--; break;
+			case',':k = 2; break;
+			default:p = (TBTNode *)malloc(sizeof(TBTNode));
+				p->data = s[i]; p->lchild = p->rchild = NULL;
+				if (b == NULL) b = p;
+				else {
+					switch (k)
+					case 1:St[top]->lchild = p; break;
+					case 2:St[top]->rchild = p; break;
+				}
+		}
+	}
+}
+void DispTBTNode(TBTNode *b)
+{
+	if (b != NULL)
+	{
+		cout << b->data << endl;
+		if (b->lchild != NULL || b->rchild != NULL)
+		{
+			cout << "(" << endl;
+			DispTBTNode(b->lchild);
+			if (b->rchild != NULL) cout << "," << endl;
+			DispTBTNode(b->rchild);
+			cout << ")" << endl;
+		}
+	}
+}
+int main()
+{
+	TBTree b, tb;
+	CreateTBTNode(b); cout << b->data << endl; cout << b->lchild->data << endl;
+	printf("二叉树:"); DispTBTNode(b); printf("\n");
+	return 0;
+}
