@@ -68,10 +68,44 @@ void PostOrderTraverse(BiTree T, int level)//递归方式后序遍历二叉树
 	//operation1(T->data);
 	operation2(T->data, level); //输出了层数
 }
+void Cope(BiTree T, BiTree &NewT)
+{
+	if (T == NULL)
+	{
+		NewT = NULL;
+		return;
+	}
+	else
+	{
+		NewT = new BiTNode;
+		NewT->data = T->data;
+		Cope(T->lchild, NewT->lchild);
+		Cope(T->rchild, NewT->rchild);
+	}
+}
+int m;
+int n;
+int Depth(BiTree T)
+{
+	if (T == NULL) return 0;
+	else
+	{
+		m = Depth(T->lchild);
+		n = Depth(T->rchild);
+		if (m > n) return (m + 1);
+		else return (n + 1);
+	}
+}
+int NodeCount(BiTree T)
+{
+	if (T == NULL) return 0;
+	else return NodeCount(T->lchild) + NodeCount(T->rchild) + 1;
+}
 int main()
 {
 	int level=1;//表示层数
 	BiTree T=NULL;
+	BiTree NewT=NULL;
 	cout << "请以前序遍历的方式输入扩展二叉树："; //类似输入AB#D##C##
 	CreateBiTree(&T); //建立二叉树
 	PreOrderTraverse(T, level);//进行前序遍历，其中operation1()和operation2()函数表示对遍历的结点数据进行的处理操作
@@ -84,6 +118,12 @@ int main()
 	cout << "递归后序遍历输出为：" << endl;
 	PostOrderTraverse(T, level);
 	cout << endl;
+
+	Cope(T,NewT);
+	printf("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
+	InOrderTraverse(NewT, level);
+	cout << "共"<<Depth(T)<<"层" << endl;
+	cout << "共" << NodeCount(T) << "个结点" << endl;
 
 	return 0;
 }
