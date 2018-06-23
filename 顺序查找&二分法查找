@@ -1,0 +1,75 @@
+#include<stdlib.h>
+#include<stdio.h>
+#include<string.h>
+#include <malloc.h>
+#include<iostream>
+using namespace std;
+typedef struct
+{
+	int key;
+}ElemType;
+typedef struct
+{
+	ElemType *R;
+	int length;
+}SSTable;
+void input(SSTable &s)
+{
+	int n,i,x;
+	cout << "please inpu length:" << endl;
+	cin >> n;
+	s.length = n;
+	s.R = new ElemType[n + 1];
+	for (i = 0; i < n; i++)
+	{
+		cout << "please input"<<i+1<<"pot"<< endl;
+		cin >> x;
+		s.R[i + 1].key = x;
+	}
+}
+void SequenceSearch(SSTable s)
+{
+	int i,x;
+	cout << "input search:" << endl;
+	cin >> x;
+	for(i=1;i<=s.length;i++)
+		if(x==s.R[i].key)
+		{
+			cout << i << endl;
+			break;
+		}
+	if (i == s.length+1)
+		cout << "no this numble" << endl;
+}
+void BinarySearch(SSTable s)
+{
+	int i, x;
+	cout << "input search:" << endl;
+	cin >> x;
+	int low, high, mid;
+	low = 1;
+	high = s.length;
+	while (low <= high)
+	{
+		mid = (low + high) / 2;
+		if (s.R[mid].key == x)
+		{
+			cout << mid << endl;
+			break;
+		}
+		if (s.R[mid].key>x)
+			high = mid - 1;
+		if (s.R[mid].key<x)
+			low = mid + 1;
+	}
+	if(low>high)
+		cout << "no this numble" << endl;
+}
+int main()
+{
+	SSTable s;
+	input(s);
+	SequenceSearch(s);//顺序查找
+	BinarySearch(s);//二分法查找
+	return 0;
+}
