@@ -1,0 +1,72 @@
+#include<stdlib.h>
+#include<stdio.h>
+#include<string.h>
+#include <malloc.h>
+#include<iostream>
+using namespace std;
+typedef int KeyType;
+typedef struct {
+	KeyType key;
+}RedType;
+typedef struct {
+	RedType *r;
+	int length;
+}SqList;
+void input(SqList &l)
+{
+	int n;
+	cout << "please input lentgh" << endl;
+	cin >> l.length;
+	l.r = new RedType[l.length + 1];
+	for(n=1;n<=l.length;n++)
+	{
+		cout << "pot"<<n<< endl;
+		cin >> l.r[n].key;
+	}
+}
+void shell(SqList &l, int s)
+{
+	int i,j;
+	for(i=s+1;i<=l.length;i++)
+		if(l.r[i].key<l.r[i-s].key)
+		{
+			l.r[0] = l.r[i];
+			for(j=i-s;j>=0&&l.r[0].key<l.r[j].key;j-=s)
+			{
+				l.r[j + s] = l.r[j];
+			}
+			l.r[j + s] = l.r[0];
+		}
+}
+int s[11];
+void xier(SqList &l)
+{
+	int i;
+	int n;
+	cout << "please input times(under 10):" << endl;
+	cin >> n;
+	for(i=0;i<n;i++)
+	{
+		cout << "please input" << i + 1 << "增量" << endl;
+		cin >> s[i];
+	}
+	for (i = 0; i < n; i++)
+	{
+		shell(l, s[i]);
+	}
+}
+void output(SqList l)
+{
+	int i;
+	for (i = 1; i <= l.length; i++)
+		printf("%d ", l.r[i].key);
+	printf("\n");
+}
+int main()
+{
+	SqList l;
+	input(l);
+	xier(l);//希尔排序
+	output(l);
+	return 0;
+}
