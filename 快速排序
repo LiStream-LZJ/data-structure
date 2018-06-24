@@ -1,0 +1,72 @@
+#include<stdlib.h>
+#include<stdio.h>
+#include<string.h>
+#include <malloc.h>
+#include<iostream>
+using namespace std;
+typedef int KeyType;
+int pot;
+typedef struct {
+	KeyType key;
+}RedType;
+typedef struct {
+	RedType *r;
+	int length;
+}SqList;
+int input(SqList &l)
+{
+	int n;
+	cout << "please input lentgh" << endl;
+	cin >> l.length;
+	l.r = new RedType[l.length + 1];
+	for(n=1;n<=l.length;n++)
+	{
+		cout << "pot"<<n<< endl;
+		cin >> l.r[n].key;
+	}
+	return l.length;
+}
+int Partition(SqList &l, int low, int high)
+{
+	int pots;
+	l.r[0] = l.r[low];
+	pots = l.r[low].key;
+	while(low<high)
+	{
+		while (low < high&&l.r[high].key >= pots) --high;
+		l.r[low] = l.r[high];
+		while (low < high&&l.r[low].key <= pots) ++low;
+		l.r[high] = l.r[low];
+	}
+	l.r[low] = l.r[0];
+	return low;
+}
+void QSort(SqList &l, int low, int high)
+{
+	if (low < high) {
+		pot = Partition(l, low, high);
+		QSort(l, low, pot - 1);
+		QSort(l, pot + 1, high);
+	}
+}
+void QuickSort(SqList l, int low, int high)
+{
+	QSort(l, low, high);
+}
+void output(SqList l)
+{
+	int i;
+	for (i = 1; i <= l.length; i++)
+		printf("%d ", l.r[i].key);
+	printf("\n");
+}
+int main()
+{
+	int low, high;
+	SqList l;
+	high=input(l);
+	low = 1;
+	QuickSort(l, low, high);
+	output(l);
+	return 0;
+}
