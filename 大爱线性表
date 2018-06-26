@@ -1,0 +1,118 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+using namespace std;
+typedef struct ll
+{
+    struct ll *next;
+    int data;
+}Node,*ListNode;
+void f(ListNode &L)
+{
+    L=new Node;
+    L->next=NULL;
+}
+void ff(ListNode &L,int s[],int n)
+{
+    int i;
+    Node *p,*q;
+    p=L;
+    for(i=1;i<=n;i++)
+        {
+            q=new Node;
+            q->data=s[i];
+            q->next=NULL;
+            p->next=q;
+            p=q;
+        }
+}
+void RR(ListNode &L)
+{
+    Node *p,*q;
+    if(L->next->next!=NULL)
+    {
+        p=L->next;
+        q=p->next;
+        for(;q!=NULL;)
+        {
+            q->next=p;
+            p=q;
+            q=q->next;
+        }
+        L->next=p;
+    }
+}
+void DD(ListNode &L)
+{
+    Node *q;
+    if(L->next->next==NULL)
+        L->next=NULL;
+    else {
+        q=L->next;
+        L->next=q->next;
+        delete q;
+    }
+}
+int fff(ListNode &L,char S[])
+{
+    int i;
+    i=0;
+    while(S[i]!=NULL)
+    {
+        if(L->next==NULL)
+        return 0;
+        if(S[i]=='R') RR(L);
+        if(S[i]=='D') DD(L);
+    }
+    if(L->next==NULL)
+        return 0;
+    else return 1;
+}
+void ffff(ListNode &L,int ss[])
+{
+    Node *p;
+    p=L->next;
+    int i;
+    i=1;
+    while(p!=NULL)
+    {
+        ss[i++]=p->data;
+        p=p->next;
+    }
+    ss[i]=0;
+}
+int main()
+{
+    ListNode L;
+    int n,i,m,j,x;
+    char cc;
+    scanf("%d",&i);
+    while(i--)
+    {
+        char S[100001];
+        int s[100001],ss[100001];
+        f(L);
+        cin>>S;
+        scanf("%d",&n);
+        for(m=1;m<=n;)
+        {
+            scanf("%c",&cc);
+            if(cc=='['||cc==',')
+                scanf("%d",&s[m++]);
+            else if(cc==']') break;
+        }
+        if(n==0) {printf("error\n");continue;}
+        ff(L,s,n);
+        j=fff(L,S);
+        if(j==0) {printf("error\n");continue;}
+        else ffff(L,ss);
+        printf("[");
+        for(x=1;;)
+        {
+            if(ss[x]==0) printf("]");
+            else printf("%d,",ss[x]);
+        }
+        printf("\n");
+    }
+    return 0;
+}
