@@ -1,0 +1,55 @@
+#include <iostream>
+
+using namespace std;
+char S[111111];
+int s[111111];
+typedef struct doe
+{
+    int data;
+    struct doe *rear,*next;
+}Node,*LNode;
+void f(LNode &T,LNode &W,int n)
+{
+    Node *q,*p;
+    q=T;
+    int i;
+    for(i=1;i<=n;i++)
+        {
+            p=new Node;
+            q->next=p;
+            p->rear=q;
+            p->data=s[i];
+            q=p;
+        }
+        q->next=W;
+        W->rear=q;
+}
+int main()
+{
+    LNode T,W;
+    T=new Node;
+    W=new Node;
+    int i,n,m,l,j;
+    char ch;
+    cin>>i;
+    while(i--)
+    {
+        cin>>S;
+        cin>>n;
+        for(m=1;;)
+        {
+            scanf("%c",&ch);
+            if(ch=='['||ch==',')
+                scanf("%d",&s[m++]);
+            else if(ch==']') break;
+        }
+        l=strlen(S);
+        f(T,W,n);
+        for(j=0;j<l;j++)
+        {
+            
+        }
+    }
+    return 0;
+}
+
