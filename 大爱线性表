@@ -1,118 +1,81 @@
-#include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<iostream>
+#include<cstring>
+#include<cstdlib>
+#include<cstdio>
 using namespace std;
-typedef struct ll
-{
-    struct ll *next;
-    int data;
-}Node,*ListNode;
-void f(ListNode &L)
-{
-    L=new Node;
-    L->next=NULL;
-}
-void ff(ListNode &L,int s[],int n)
-{
-    int i;
-    Node *p,*q;
-    p=L;
-    for(i=1;i<=n;i++)
-        {
-            q=new Node;
-            q->data=s[i];
-            q->next=NULL;
-            p->next=q;
-            p=q;
-        }
-}
-void RR(ListNode &L)
-{
-    Node *p,*q;
-    if(L->next->next!=NULL)
-    {
-        p=L->next;
-        q=p->next;
-        for(;q!=NULL;)
-        {
-            q->next=p;
-            p=q;
-            q=q->next;
-        }
-        L->next=p;
-    }
-}
-void DD(ListNode &L)
-{
-    Node *q;
-    if(L->next->next==NULL)
-        L->next=NULL;
-    else {
-        q=L->next;
-        L->next=q->next;
-        delete q;
-    }
-}
-int fff(ListNode &L,char S[])
-{
-    int i;
-    i=0;
-    while(S[i]!=NULL)
-    {
-        if(L->next==NULL)
-        return 0;
-        if(S[i]=='R') RR(L);
-        if(S[i]=='D') DD(L);
-    }
-    if(L->next==NULL)
-        return 0;
-    else return 1;
-}
-void ffff(ListNode &L,int ss[])
-{
-    Node *p;
-    p=L->next;
-    int i;
-    i=1;
-    while(p!=NULL)
-    {
-        ss[i++]=p->data;
-        p=p->next;
-    }
-    ss[i]=0;
-}
+char S[111111];
+int s[111111];
 int main()
 {
-    ListNode L;
-    int n,i,m,j,x;
-    char cc;
-    scanf("%d",&i);
-    while(i--)
-    {
-        char S[100001];
-        int s[100001],ss[100001];
-        f(L);
+    int time;
+    scanf("%d",&time);
+    while(time--){
         cin>>S;
+        int l=strlen(S);
+        int n,i,m;
+        char ch;
         scanf("%d",&n);
-        for(m=1;m<=n;)
+        for(m=0;;)
         {
-            scanf("%c",&cc);
-            if(cc=='['||cc==',')
+            scanf("%c",&ch);
+            if(ch=='['||ch==',')
                 scanf("%d",&s[m++]);
-            else if(cc==']') break;
+            else if(ch==']') break;
         }
-        if(n==0) {printf("error\n");continue;}
-        ff(L,s,n);
-        j=fff(L,S);
-        if(j==0) {printf("error\n");continue;}
-        else ffff(L,ss);
-        printf("[");
-        for(x=1;;)
+        int sum=0;
+        int ks=0,js=n-1,f=0;
+        for(i=0;i<l;i++){
+            if(S[i]=='R')
+                sum++;
+            else
+            {
+                if(sum%2==1){
+                        if(ks>js){
+                        f=1;
+                        break;
+                    }
+                    js--;
+                }
+                else
+                {
+                    if(ks>js)
+                    {
+                        f=1;
+                        break;
+                    }
+                    ks++;
+                }
+            }
+        }
+        if(f)
+            printf("error\n");
+        else
         {
-            if(ss[x]==0) printf("]");
-            else printf("%d,",ss[x]);
+            if(sum%2==1)
+            {
+                printf("[");
+                if(js>=ks){
+                for(i=js;i>ks;i--){
+                        printf("%d,",s[i]);
+                }
+                printf("%d",s[ks]);
+                }
+                printf("]\n");
+            }
+            else
+            {
+                printf("[");
+                if(ks<=js){
+                for(i=ks;i<js;i++){
+                        printf("%d,",s[i]);
+                }
+                printf("%d",s[js]);
+                }
+                printf("]\n");
+            }
         }
-        printf("\n");
     }
     return 0;
 }
