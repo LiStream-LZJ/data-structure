@@ -1,0 +1,132 @@
+#include<iostream>
+#include<cstdio>
+#include<cstring>
+#include<cmath>
+#include<stdio.h>
+#include<string>
+#include<stdlib.h>
+#include<algorithm>
+using namespace std;
+struct node
+{
+    char word[20];
+    int len=0;
+}d[11111],f;
+int n=0;
+int aw[11111];
+typedef struct tree
+{
+    char word[20];
+   struct tree *lchild,*rchild;
+   int len;
+}Node,*TNode;
+void into(TNode &T)
+{
+    int i,x;
+
+    if(T==NULL)
+    {
+        T=new Node;
+        T->len=d[n].len;
+        for(i=0;i<T->len;i++)
+            T->word[i]=d[n].word[i];
+            T->lchild=NULL;
+            T->rchild=NULL;
+    }
+    else
+    {
+        for(i=0;i<T->len&&i<d[n].len;i++)
+        {
+            x=d[n].word[i]-T->word[i];
+            if(x>0) {into(T->rchild);break;}
+            else if(x<0) {into(T->lchild);break;}
+            else if(x==0)
+            {
+                if(i+1==T->len) into(T->rchild);
+                else if(i+1==d[n].len) into(T->lchild);
+            }
+        }
+    }
+}
+int out(TNode T)
+{
+    if(T==NULL) return 0;
+    out(T->lchild);
+    out(T->rchild);
+    int x;
+    for(x=0;x<T->len;x++)
+        printf("%c",T->word[x]);
+    printf(" ");
+    return 0;
+}
+int check(node f)
+{
+    int i,j,ok,t,error;
+    ok=0;i=1;j=1;
+    for(t=0;t<n;t++)
+    {
+        error=0;
+        if(f.len==d[t].len)
+        {
+            for(i=0;i<f.len;i++)
+            {
+                if(f.word[i]!=d[t].word[i])
+                {
+                    error++;
+                    if(error>1) break;
+                }
+            }
+            if(error==0) return 1;
+        }
+        else if(f.len==d[t].len-1)
+        {
+            for(i=0,j=0;j<(f.len+1);i++,j++)
+            {
+                if(f.word[i]!=d[t].word[j])
+                {
+                    i--;
+                    error++;
+                    if(error>1) break;
+                }
+            }
+        }else if(f.len==d[t].len+1)
+        {
+            for(i=0,j=0;i<f.len;i++,j++)
+            {
+                if(f.word[i]!=d[t].word[j])
+                {
+                    j--;
+                    error++;
+                    if(error>1) break;
+                }
+            }
+        }
+        if(error==1) aw[ok++]=t;
+    }
+    printf("%s:",f.word);
+    for(i=0;i<ok;i++)
+    {
+        printf(" %s",d[aw[i]].word);
+    }
+    printf("\n");
+    return 0;
+}
+int main()
+{
+    TNode T=NULL;
+    while(scanf("%s",d[n].word)!=EOF)
+        {
+        if(d[n].word[0]=='#') break;
+        d[n].len=strlen(d[n].word);
+        into(T);
+        n++;
+        }
+        out(T);
+        printf("\n");
+    while(scanf("%s",f.word)!=EOF){
+        if(f.word[0]=='#') break;
+        f.len=strlen(f.word);
+        if(check(f)==1) printf("%s is correct\n",f.word);
+    }
+    return 0;
+}
