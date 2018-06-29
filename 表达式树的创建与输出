@@ -1,0 +1,91 @@
+#include <iostream>
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+using namespace std;
+char s[100];
+typedef struct node
+{
+	int data;
+	struct node *lchild, *rchild;
+} Node, *TNode;
+void creat(TNode &L)
+{
+	cin >> s;
+	if (s[0] == '#')
+		L = NULL;
+	else
+	{
+		int p = 0;
+		if (s[0] == '+')
+			p = 101;
+		else if (s[0] == '-')
+			p = 102;
+		else if (s[0] == '*')
+			p = 103;
+		else if (s[0] == '/')
+			p = 104;
+		else
+		{
+			int i = 0, n = strlen(s);
+			while (i<n)
+			{
+				p = p * 10 + (s[i] - '0');
+				i++;
+			}
+		}
+		L = new Node;
+		L->data = p;
+		creat(L->lchild);
+		creat(L->rchild);
+	}
+}
+void print(TNode L)
+{
+	if (L)
+	{
+		if (L->data >= 0&&L->data<=100) printf("%d", L->data);
+		else
+		{
+			cout << '(';
+			print(L->lchild);
+			if (L->data == 101) printf("+");
+			else if (L->data == 102) printf("-");
+			else if (L->data == 103) printf("*");
+			else printf("/");
+			print(L->rchild);
+			cout << ')';
+		}
+	}
+}
+int main()
+{
+	while (cin >> s)
+	{
+		TNode L;
+		int p = 0;
+		if (s[0] == '+')
+			p = 101;
+		else if (s[0] == '-')
+			p = 102;
+		else if (s[0] == '*')
+			p = 103;
+		else if (s[0] == '/')
+			p = 104;
+		else
+		{
+			int i = 0, n = strlen(s);
+			while (i<n)
+			{
+				p = p * 10 + (s[i] - '0');
+				i++;
+			}
+		}
+		L = new node;
+		L->data = p;
+		creat(L->lchild);
+		creat(L->rchild);
+		print(L);
+		cout << endl;
+	}
+}
