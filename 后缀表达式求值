@@ -1,0 +1,90 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+using namespace std;
+#define maxsize 1000
+#define mmm 100001
+typedef struct
+{
+    int *base;
+    int *top;
+    int stacksize;
+}sqstack;
+void initstack(sqstack &S)
+{
+    S.base=new int[maxsize];
+    S.top=S.base;
+    S.stacksize=maxsize;
+}
+int stackemperty(sqstack S)
+{
+    if(S.top==S.base)
+        return 1;
+    return 0;
+}
+int stackfull(sqstack S)
+{
+    if(S.top-S.base==S.stacksize)
+        return 1;
+    return 0;
+}
+void push(sqstack &S,int e)
+{
+    if(S.top-S.base==S.stacksize) exit(0);
+    *S.top++=e;
+}
+void pop(sqstack &S,int &e)
+{
+    if(S.top==S.base) exit(0);
+    e=*--S.top;
+}
+int calculate(int num1,int num2,char op)
+{
+    int sum;
+        if(op=='*') sum=num1*num2;
+        if(op=='/') sum=num1/num2;
+        if(op=='-') sum=num1-num2;
+        if(op=='+') sum=num1+num2;
+        return sum;
+}
+int main()
+{
+    char b[1000],d[1000];
+    int c[1000],sum,num1,num2;
+    int i,num=0,flag=1,k=0,j,l=0;
+    sqstack L;
+    initstack(L);
+    gets(b);
+    for(i=0;b[i]!='\0';i++)
+    {
+        if((b[i]=='+'||b[i]=='-'||b[i]=='/'||b[i]=='*')&&flag==0)
+            {d[l++]=b[i];c[k++]=mmm;}
+        if(b[i]>='0'&&b[i]<='9'&&b[i]!=' ')
+            {num=num*10+b[i]-'0';
+            flag=1;}
+        if((b[i]==' '||b[i]=='+'||b[i]=='-'||b[i]=='/'||b[i]=='*')&&flag==1)
+        {
+            c[k++]=num;d[l++]='#';
+            num=0;flag=0;
+            if(b[i]=='+'||b[i]=='-'||b[i]=='/'||b[i]=='*')
+            {d[l++]=b[i];c[k++]=mmm;}
+        }
+    }
+    for(j=0;j<k;j++)
+    {
+        if(c[j]!=mmm&&d[j]=='#')
+            push(L,c[j]);
+        else
+        {
+            if(!stackemperty(L))
+           {pop(L,num2);
+           pop(L,num1);
+           sum=calculate(num1,num2,d[j]);
+           }
+           if(!stackfull(L))
+           push(L,sum);
+        }
+    }
+    pop(L,sum);
+    cout<<sum<<endl;
+}
