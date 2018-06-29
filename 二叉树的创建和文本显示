@@ -1,0 +1,80 @@
+#include <iostream>
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+using namespace std;
+typedef struct tree
+{
+    char data[4];
+    int depth;
+    int number;
+    struct tree *lchild,*rchild;
+}Node,*TNode;
+int c[300];
+int p,q,num;
+char b[300][100],d[300][100];
+void creat(TNode &T,int num)
+{
+    if(d[q][0]!='#')
+    {
+        T=new Node;
+        strcpy(T->data,d[q++]);
+        T->depth=++num;
+        creat(T->lchild,T->depth);
+        creat(T->rchild,T->depth);
+    }
+    else
+    {
+        q++;
+        T=NULL;
+    }
+}
+int travel(TNode &T)
+{
+    if(T!=NULL)
+    {
+        travel(T->rchild);
+        T->number=++p;
+        c[T->number]=T->depth;
+        strcpy(b[T->number],T->data);
+        travel(T->lchild);
+    }
+    return 0;
+}
+void print(int i)
+{
+    int j,x;
+    x=(c[i]-1)*4;
+    for(j=1;j<=x;j++)
+        printf(" ");
+    cout<<b[i]<<endl;
+}
+int main()
+{
+    char a[1000];
+    TNode T;
+    while(gets(a)!=NULL)
+    {
+        memset(c,0,sizeof(int )*300);
+        int i,j=0,k=0;
+        q=0;num=0;p=0;
+        for(i=0;a[i]!='\0';i++)
+        {
+            if(a[i]!=' ')
+                d[j][k++]=a[i];
+            else
+            {
+                d[j][k++]='\0';
+                k=0;
+                j++;
+            }
+        }
+        d[j++][k++]='\0';
+        creat(T,0);
+        travel(T);
+        for(i=1;i<=p;i++)
+            print(i);
+        cout<<endl;
+    }
+    return 0;
+}
