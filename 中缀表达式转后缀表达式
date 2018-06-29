@@ -1,0 +1,93 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+using namespace std;
+typedef struct
+{
+    int *base;
+    int *top;
+    int stacksize;
+}sqstack;
+void initstack(sqstack &S)
+{
+    S.base=new int[310];
+    S.top=S.base;
+    S.stacksize=310;
+}
+int stackemperty(sqstack S)
+{
+    if(S.top==S.base)
+        return 1;
+    return 0;
+}
+void push(sqstack &S,char e)
+{
+    if(S.top-S.base==S.stacksize) exit(0);
+    *S.top++=e;
+}
+void pop(sqstack &S,char &e)
+{
+    if(S.top==S.base) exit(0);
+    e=*--S.top;
+}
+int main()
+{
+    sqstack L;
+    initstack(L);
+    int i;
+    char a[310],ch;
+    scanf("%s",a);
+    for(i=0;a[i]!='\0';i++)
+    {
+        if((a[i]>='A'&&a[i]<='Z')||(a[i]>='a'&&a[i]<='z'))
+            printf("%c",a[i]);
+        else if(a[i]=='(') push(L,a[i]);
+        else if(a[i]==')')
+        {
+            pop(L,ch);
+            while(ch!='(')
+            {
+                printf("%c",ch);
+                pop(L,ch);
+            }
+        }
+        else{
+            if(a[i]=='+'||a[i]=='-')
+            {
+                for(;!stackemperty(L);)
+                {
+                    pop(L,ch);
+                    if(ch!='(')
+                    printf("%c",ch);
+                    else{push(L,ch);break;}
+                }
+                push(L,a[i]);
+            }
+            else if(a[i]=='*'||a[i]=='/')
+                {
+                    while(stackemperty(L)!=1)
+                    {
+                        pop(L,ch);
+                        if(ch=='+'||ch=='-')
+                        {
+                            push(L,ch);
+                            break;
+                        }
+                        else if(ch=='(')
+                        {
+                            push(L,ch);
+                            break;
+                        }
+                        else printf("%c",ch);
+                    }
+                    push(L,a[i]);
+            }
+        }
+    }
+    for(;stackemperty(L)!=1;)
+    {
+        pop(L,ch);
+        printf("%c",ch);
+    }
+    return 0;
+}
