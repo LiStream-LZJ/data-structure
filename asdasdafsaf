@@ -1,0 +1,39 @@
+#include<stdio.h>
+#include<iostream>
+using namespace std;
+typedef struct _graph
+{
+    int vexnum;
+    int matrix[51][51];
+}Graph;
+Graph T;
+void into(int n,int m)
+{
+    int i,j,x,k;
+    for(i=1;i<=n;i++)
+        for(j=1;j<=n;j++)
+        T.matrix[i][j]=0;
+    for(k=1;k<=m;k++)
+    {
+        cin>>i>>j>>x;
+        if(T.matrix[i][j]==0) T.matrix[i][j]=x;
+        else if(x<T.matrix[i][j]) T.matrix[i][j]=x;
+    }
+    for(i=1;i<=n;i++)
+        for(j=1;j<=n;j++)
+            printf("%d ",T.matrix[i][j]);
+        printf("\n");
+}
+int main()
+{
+    int n,m;
+    while(scanf("%d",&n)!=EOF)
+    {
+        if(n==0) break;
+        else
+        {
+            scanf("%d",&m);
+            into(n,m);
+        }
+    }
+}
