@@ -1,0 +1,115 @@
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+using namespace std;
+typedef struct
+{
+    double num;
+    char ch;
+}number;
+typedef struct BiTNode
+{
+    number data;
+    struct BiTNode *lchild,*rchild;
+}Node,*Tree;
+void Init(Tree &T)
+{
+    int i;
+    char s[20];
+    cin>>s;
+    if (s[0]=='#') T=NULL;
+    else
+    {
+        T=new Node;
+        if (s[0]=='+'||s[0]=='-'||s[0]=='*'||s[0]=='/')
+            T->data.ch=s[0];
+        else
+        {
+           double  n=0.0;
+            for (i=0; i<strlen(s); i++)
+                n=n*10.0+1.0*(s[i]-'0');
+            T->data.num=n;
+        }
+        Init(T->lchild);
+        Init(T->rchild);
+    }
+}
+ 
+double Cal(Tree T)
+{
+    double re=0;
+    if (T->lchild==NULL&&T->rchild==NULL){
+       re=T->data.num;
+    }
+    else
+    {
+        double num1=Cal(T->lchild);
+        double num2=Cal(T->rchild);
+         switch (T->data.ch){
+        case '+':re=num1+num2; break;
+        case '-':re=num1-num2; break;
+        case '*':re=num1*num2; break;
+        case '/':re=num1/num2; break;
+       }
+    }
+    return re;
+}
+double Travel(Tree T)
+{
+    double re=0.0;
+    if (T->lchild==NULL&&T->rchild==NULL){
+            int n=T->data.num;
+        printf("%d",n);
+       re=T->data.num;
+    }
+    else
+    {
+        cout<<'(';
+        double num1=Travel(T->lchild);
+        printf("%c",T->data.ch);
+        double num2=Travel(T->rchild);
+        cout<<")";
+         switch (T->data.ch){
+        case '+':re=num1+num2; break;
+        case '-':re=num1-num2; break;
+        case '*':re=num1*num2; break;
+        case '/':re=num1/num2; break;
+       }
+    }
+    return re;
+}
+int main()
+{
+    Tree T;
+    char c[20];
+    while (cin>>c)
+    {
+        double re=0.0;
+        if (c[0]=='#')
+            T=NULL;
+        else
+        {
+            T=new BiTNode;
+            if (c[0]=='+'||c[0]=='-'||c[0]=='*'||c[0]=='/')
+                T->data.ch=c[0];
+            else
+            {
+                double n=0.0;
+                for (int i=0;i<strlen(c);i++)
+                    n=n*10.0+1.0*(c[i]-'0');
+                T->data.num=n;
+            }
+            Init(T->lchild);
+            Init(T->rchild);
+            re=Cal(T);
+        }
+        if(23.999999<=re&&re<=24.000001)
+        {
+            Travel(T);
+            cout<<"="<<24<<endl;
+        }
+        else
+            cout<<"NO"<<endl;
+    }
+    return 0;
+}
