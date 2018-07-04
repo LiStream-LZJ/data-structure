@@ -1,0 +1,51 @@
+#include<cstdio>
+#include<algorithm>
+#include<iostream>
+using namespace std;
+typedef struct
+{
+    int v[3];
+} p;                 
+bool comp(p a, p x)  
+{
+    return a.v[2] < x.v[2];
+}
+p a[10000005];
+int b[51];
+int f(int i)     
+{
+    if (b[i] == i) return i;
+    else return f(b[i]);    
+}
+void into(int t)
+{
+    int i;
+    for (i = 1; i <= t; i++)
+        cin >> a[i].v[0] >> a[i].v[1] >> a[i].v[2];
+}
+int main()
+{
+    int i, t, n, s, j;
+    while (scanf("%d", &n) == 1 )
+    {
+        if (n == 0) break;
+        else
+        {
+            s = 0;
+            scanf("%d", &t);
+            into(t);
+            sort(a, a + t, comp);
+            for (i = 1; i <= n; i++) b[i] = i;
+            for (i = 1; i <= t; i++)
+            {
+                if (f(a[i].v[0]) != f(a[i].v[1]))
+                {
+                    b[f(a[i].v[0])] = f(a[i].v[1]);
+                    s=s+a[i].v[2];
+                }
+            }
+            cout << s << endl;
+        }
+    }
+    return 0;
+}
