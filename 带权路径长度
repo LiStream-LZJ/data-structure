@@ -1,0 +1,31 @@
+#include <queue>
+#include <cstdio>
+#include <iostream>
+#include<algorithm>
+using namespace std;
+#define MOD  1000000007
+int main()
+{
+    long long n,a,b,i,ggg;
+    while(scanf("%lld",&n)!=EOF)
+    {
+       long long m,re=0;
+       priority_queue<long long , vector<long long >, greater<long long> >p;
+       if(!p.empty())
+        p.pop();
+       for(i=1;i<=n;i++){
+           cin>>m;
+           p.push(m);
+       }
+         for(i=2;i<=n;i++)
+            {
+            a=p.top();   p.pop();
+            b=p.top();  p.pop();
+            re=a+b+re;
+            p.push(a+b);
+         }
+         ggg=re%MOD;
+        printf("%lld\n",ggg);
+    }
+    return 0;
+}
