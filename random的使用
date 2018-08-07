@@ -1,0 +1,42 @@
+#include<iostream>
+#include <ctime>
+#include <cstdlib>
+#include <algorithm>
+using namespace std;
+int a = 0;
+int b = 100;
+#define random(a, b) rand()%(b-a+1) + a
+bool compare(int a, int b)
+{
+	return a>b;
+}
+int main()
+{
+
+	int arr[15];
+	int i,n;
+	srand((unsigned)time(NULL));
+	for (i = 0; i < 15; i++)
+	{
+		arr[i] = random(0,100);
+	}
+	for(i=0;i<15;i++)
+	{
+		cout << arr[i] << " ";
+	}
+	cout << endl;
+	sort(arr, arr+15);//sort按默认的方式（从小到大）排序
+	for (i = 0; i<15; i++)
+	{
+		cout << arr[i] << " ";
+	}
+	cout << endl;
+	sort(arr, arr + 15,compare);//sort按compare的运算（从大到小）排序
+	for (i = 0; i<15; i++)
+	{
+		cout << arr[i] << " ";
+	}
+	cout << endl;
+	system("pause");
+	return 0;
+}
